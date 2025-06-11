@@ -11,11 +11,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import javax.servlet.Servlet;
+
 @EnableWebMvc
-@ComponentScan(basePackages = {
-        "org.scoula.exception",    // 📍 예외 처리 패키지 추가, 우선 스캔되도록 앞에 작성
-        "org.scoula.controller"
-})
+@ComponentScan(basePackages = {"org.scoula.controller", "org.scoula.exception", "org.scoula.ex03.controller"})    // Spring MVC용 컴포넌트 등록을 위한 스캔 패키지
 public class ServletConfig implements WebMvcConfigurer {
 
     @Override
@@ -37,10 +36,11 @@ public class ServletConfig implements WebMvcConfigurer {
         registry.viewResolver(bean);
     }
 
+    // Servlet 3.0 파일 업로드사용시-MultipartResolver 빈등록
     @Bean
     public MultipartResolver multipartResolver() {
-        StandardServletMultipartResolver resolver =
-                new StandardServletMultipartResolver();
+        StandardServletMultipartResolver resolver
+                = new StandardServletMultipartResolver();
         return resolver;
     }
 }
